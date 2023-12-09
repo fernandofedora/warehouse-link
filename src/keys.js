@@ -1,19 +1,20 @@
 
 //import {createPool} from 'mysql2/promise'
-/*
+
 module.exports = {
 
     database: {
         connectionLimit: 10,
-        host: 'localhost',
+        host: 'roundhouse.proxy.rlwy.net',
         user: 'root',
-        password: 'fnoel1995',
-        database: 'db_links'
+        password: 'EDEE66H3BbGH2heFd4f-ecAAAE2F-dAG',
+        database: 'railway'
     }
 
 };
-*/
 
+
+/*
 module.exports = {
 
     database: {
@@ -24,4 +25,4 @@ module.exports = {
         database: DDB_NAME = process.env.DB_NAME || 'db_links'
     }
 
-};
+};*/
