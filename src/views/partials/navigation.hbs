@@ -1,0 +1,150 @@
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-link"></i> Apoco Links
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        {{#if user}}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+          Links
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/links">All Links</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/links/add">Add A Link</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        {{else}}
+        <li class="nav-item">
+          <a class="nav-link" href="/signin">SignIn</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/signup">SignUp</a>
+        </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <!--
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container" id="content">
+        <a class="navbar-brand" href="/" data-translate="favorito">
+            <i class="fas fa-link" ></i><span>Favorite Links</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {{#if user}}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Links
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/links">All Links</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/links/add">Add A Link</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-translate="perfil" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                {{else}}
+                <li class="nav-item">
+                    <a class="nav-link" data-translate="signin" href="/signin">SignIn</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-translate="signup" href="/signup">SignUp</a>
+                </li>
+                {{/if}}
+
+              
+                 
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Language
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                        <a class="dropdown-item" href="#" onclick="changeLanguage('en')">English</a>
+                        <a class="dropdown-item" href="#" onclick="changeLanguage('es')">Español</a>
+                        
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<script>
+    let currentLanguage = 'en'; // Por defecto, inglés
+
+    function changeLanguage(language) {
+
+        if(currentLanguage != language){
+          currentLanguage = language;
+            translatePage();
+        }
+
+       
+    }
+
+
+    async function translatePage() {
+        const contentElement = document.getElementById('content');
+        console.log(contentElement);
+        // Obtener los elementos a traducir
+        const elementsToTranslate = contentElement.querySelectorAll('[data-translate]');
+        console.log(elementsToTranslate);
+        // Obtener el contenido actual
+        const originalContent = {};
+        elementsToTranslate.forEach(element => {
+            const key = element.getAttribute('data-translate');
+            console.log(element);
+            originalContent[key] = element.innerText;
+        });
+          console.log(originalContent);
+          console.log(Object.values(originalContent).join('\n'));
+        // Traducir el contenido usando la API de Google Translate
+        const translationResult = await fetch(
+            `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${currentLanguage}&dt=t&q=${encodeURIComponent(Object.values(originalContent).join('\n'))}`
+        );
+        
+        const translationData = await translationResult.json();
+        console.log(translationData);
+        const translatedContent = translationData[0];
+        console.log(translatedContent);
+
+        // Reemplazar el contenido traducido en la página
+        elementsToTranslate.forEach((element, index) => {
+          const translateValue = translatedContent[index][0];
+            element.innerText = translateValue.replace("\n",'');
+        });
+    }
+</script>
+ -->
