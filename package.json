@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/",
-    "start": "node src/index.js"
+    "start": "node src/"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
     "timeago.js": "^4.0.2"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.4.11",
     "nodemon": "^3.0.1"
   }
 }
