@@ -27,7 +27,6 @@
     "timeago.js": "^4.0.2"
   },
   "devDependencies": {
-    "@flydotio/dockerfile": "^0.4.11",
     "nodemon": "^3.0.1"
   }
 }
