@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const parser = require('@json2csv/plainjs');
 
 const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
@@ -51,6 +52,18 @@ router.post('/edit/:id',isLoggedIn, async (req, res) => {
     await pool.query('UPDATE links set ? WHERE id = ?', [newLink, id]);
     req.flash('success', 'Link Updated Successfully');
     res.redirect('/links');
+});
+
+router.get('/export', isLoggedIn, async (req, res) => {
+    const myLinks = await pool.query('SELECT title, url, description FROM links WHERE user_id = ?', [req.user.id]);
+
+    var jsonData = JSON.parse(JSON.stringify(myLinks));
+    var csvParser = new parser.Parser();
+    var csvData = csvParser.parse(jsonData);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=my_links.csv');
+    res.status(200).end(csvData);
 });
 
 
