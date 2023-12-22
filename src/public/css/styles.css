@@ -1,8 +1,8 @@
 body {
    /* background: #f5f6fa;*/
-font-family: 'Oswald', sans-serif;
-
-    overflow: hidden;
+  font-family: 'Raleway', sans-serif;
+  overflow-y: auto;
+  
 }
 
 .index {
