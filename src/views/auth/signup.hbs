@@ -6,21 +6,32 @@
           <h3>SignUp</h3>
         </div>
         <div class="card-body">
-          <form action="/signup" method="POST">
+          <form action="/signup" method="POST" class="needs-validation" novalidate>
             <div class="form-group">
-              <input type="type" name="fullname" placeholder="Full Name" class="form-control" autofocus>
+              <input type="type" name="fullname" placeholder="Full Name" class="form-control" required>
+                <div class="valid-feedback">
+                  Looks good!
+                 </div>
             </div>
             <div class="form-group">
-              <input type="text" name="username" placeholder="Username" class="form-control">
+              <input type="text" name="username" placeholder="Username" class="form-control" required>
+               <div class="invalid-feedback">
+                   Please choose a username.
+                  </div>
             </div>
             <div class="form-group">
-              <input type="password" name="password" placeholder="Password" class="form-control" id="myPass">
-               <!-- An element to toggle between password visibility -->
+              <input type="password" name="password" placeholder="Password" class="form-control" id="myPass" required>
+                 <div class="invalid-feedback">
+                   password required.
+                  </div>
+            </div>
+              <div class="form-group">
+            <!-- An element to toggle between password visibility -->
                 <input type="checkbox" onclick="ShowPassword()"> Show Password
-            </div>
+                </div>
             </div>
             <div class="form-group">
-              <button class="btn btn-success btn-block">
+              <button class="btn btn-success btn-block" type="submit">
                 SingIn
               </button>
             </div>
@@ -40,4 +51,26 @@
     x.type = "password";
   }
 }
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
 </script>
