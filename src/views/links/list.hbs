@@ -1,12 +1,18 @@
-   <div class="container p-4 overflow-auto" id="navbar-example">
+<div class="container p-4">
+    <!-- Barra de búsqueda -->
+       <div class="input-group mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+        </div>
     <div class="row">
         {{#each links}}
-        <div class="col-md-3">
-        
+        <div class="col-md-3 link-item">
             <div class="card text-center">
                 <div class="card-body">
                     <a href="{{url}}" target="_blank">
-                        <h3 class="card-title text-uppercase">
+                        <h3 class="card-title">
                             {{title}}
                         </h3>
                     </a>
@@ -23,7 +29,6 @@
                 </div>
             </div>
         </div>
-    
         {{else}}
         <div class="col-md-4 mx-auto">
             <div class="card card-body text-center">
@@ -34,3 +39,16 @@
         {{/each}}
     </div>
 </div>
+
+<script>
+    // Agrega un evento de escucha al campo de búsqueda
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+
+        // Oculta o muestra elementos según la búsqueda
+        document.querySelectorAll('.link-item').forEach(function (link) {
+            const linkText = link.innerText.toLowerCase();
+            link.style.display = linkText.includes(searchTerm) ? 'block' : 'none';
+        });
+    });
+</script>
