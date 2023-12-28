@@ -11,6 +11,17 @@
                     <a href="/links/export" method="GET" class="btn btn-primary m-4">
                         Export your Links
                     </a>
+                    <div class="card card-body text-center">
+                        <p>Import your links</p>
+                        <form action="/links/import" method="POST" enctype="multipart/form-data">
+                            <div class="form-group"><input type="file" name="mylinks"/></div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block" type="submit">
+                                    Import
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
