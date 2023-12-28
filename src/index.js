@@ -33,6 +33,14 @@ app.engine('.hbs', exphbs.engine({
 }))
 app.set('view engine', '.hbs');
 
+//borrar la cache
+app.use((req, res, next) => {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  next();
+});
+
 // Middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));

@@ -52,7 +52,7 @@ router.get('/logout', isLoggedIn, (req, res) => {
     if (err) {
       return next(err);
     }
-    res.redirect('/signin'); // Redireccionar después de cerrar sesión
+    res.redirect('/'); // Redireccionar después de cerrar sesión
   });
 });
 
