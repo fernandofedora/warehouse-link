@@ -35,8 +35,11 @@ app.set('view engine', '.hbs');
 
 //borrar la cache
 app.use((req, res, next) => {
+    // Configurar el encabezado Cache-Control en la respuesta HTTP
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+   // Configurar el encabezado Expires en un valor en el pasado para indicar que la respuesta ha expirado
   res.header('Expires', '-1');
+    // Configurar el encabezado Pragma en 'no-cache' para indicar que no debe almacenarse en caché
   res.header('Pragma', 'no-cache');
   next();
 });
