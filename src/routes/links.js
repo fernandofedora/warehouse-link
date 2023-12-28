@@ -1,6 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const parser = require('@json2csv/plainjs');
+const multer  = require('multer');
+const upload = multer({
+    dest: '.temp/csv/',
+    fileFilter: function (req, file, cb) {
+        file.mimetype === 'text/csv' ? cb(null, true) : cb(null, false)
+    }
+});
+const csv = require('fast-csv');
 
 const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
@@ -66,5 +74,33 @@ router.get('/export', isLoggedIn, async (req, res) => {
     res.status(200).end(csvData);
 });
 
+router.post('/import', isLoggedIn, upload.single('mylinks'), async (req, res) => {
+    var importFile = req.file;
+    if(!importFile) {
+        req.flash('message', 'Please select a compatible CSV file to import your links');
+        res.redirect('/profile');
+        return;
+    }
+
+    csv.parseFile(importFile.path, {headers: true})
+    .on('data', async (row) => {
+        const newLink = {
+            title: row['title'],
+            url: row['url'],
+            description: row['description'],
+            user_id: req.user.id
+        };
+        await pool.query('INSERT INTO links set ?', [newLink]);
+    })
+    .on('error', _ => {
+        req.flash('message', 'There was an error importing your links. Please try again later.');
+        res.redirect('/profile');
+        return;
+    })
+    .on('end', _ => {
+        req.flash('success', 'Your links were imported successfully');
+        res.redirect('/links');
+    });
+});
 
 module.exports = router;
