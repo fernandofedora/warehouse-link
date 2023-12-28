@@ -65,6 +65,12 @@ router.post('/edit/:id',isLoggedIn, async (req, res) => {
 router.get('/export', isLoggedIn, async (req, res) => {
     const myLinks = await pool.query('SELECT title, url, description FROM links WHERE user_id = ?', [req.user.id]);
 
+    if (myLinks.length == 0) {
+        req.flash('message', 'You have no links to export');
+        res.redirect('/profile');
+        return;
+    }
+    
     var jsonData = JSON.parse(JSON.stringify(myLinks));
     var csvParser = new parser.Parser();
     var csvData = csvParser.parse(jsonData);
