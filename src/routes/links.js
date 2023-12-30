@@ -1,4 +1,7 @@
 const express = require('express');
+const crypto = require('crypto');
+//const md5 = require('md5');
+//const crypto = require('crypto-js');
 const router = express.Router();
 const parser = require('@json2csv/plainjs');
 const multer  = require('multer');
@@ -42,11 +45,14 @@ router.get('/delete/:id',isLoggedIn, async (req, res) => {
     res.redirect('/links');
 });
 
-router.get('/edit/:id',isLoggedIn, async (req, res) => {
-    const { id } = req.params;
+router.get('/edit/:id', isLoggedIn, async (req, res) => {
+     const { id } = req.params;
+     let encryptedId = crypto.createHash('md5').update(id).digest("hex")
+    //const encryptedId = crypto.MD5(id).toString();
+    //const md5 = { id } = crypto.createHash('md5').update(data).digest("hex");
     const links = await pool.query('SELECT * FROM links WHERE id = ?', [id]);
-    //console.log(links[0]);
-    res.render('links/edit', {link: links[0]});
+    console.log('Encrypted ID:', encryptedId);
+    res.render('links/edit', { link: links[0], encryptedId, links});
 });
 
 router.post('/edit/:id',isLoggedIn, async (req, res) => {

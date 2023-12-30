@@ -1,11 +1,13 @@
 <div class="container p-4">
+    {{#if links.length}} <!-- Verifica si hay enlaces -->
     <!-- Barra de búsqueda -->
-       <div class="input-group mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search">
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
+    <div class="input-group mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search">
+        <div class="input-group-append">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
+    </div>
+    {{/if}}
     <div class="row">
         {{#each links}}
         <div class="col-md-3 link-item">
