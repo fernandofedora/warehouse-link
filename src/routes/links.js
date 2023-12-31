@@ -128,37 +128,44 @@ router.get('/export', isLoggedIn, async (req, res) => {
 });
 
 router.post('/import', isLoggedIn, upload.single('mylinks'), async (req, res) => {
-    var importFile = req.file;
+    const importFile = req.file;
     if (!importFile) {
         req.flash('message', 'Please select a compatible CSV file to import your links');
         res.redirect('/profile');
         return;
     }
 
-    csv.parseFile(importFile.path, { headers: true })
-        .on('data', async (row) => {
-
-        // Genera un hash MD5 único
-        const encryptedId = generateUniqueMD5();
-
-            const newLink = {
-                title: row['title'],
-                url: row['url'],
-                description: row['description'],
-                user_id: req.user.id,
-                encrypted_id: encryptedId,
-            };
-            await pool.query('INSERT INTO links SET ?', [newLink]);
-        })
-        .on('error', _ => {
-            req.flash('message', 'There was an error importing your links. Please try again later.');
-            res.redirect('/profile');
-            return;
-        })
-        .on('end', _ => {
+    var errCode = 0;
+    const links = [];
+    csv.parseFile(importFile.path, {headers: true})
+    .on('data', (row) => {
+        const title = row['title'];
+        const url = row['url'];
+        const description = row['description'];
+        if (title == null || url == null || description == null) {
+            errCode = -1;
+        } else {
+            // Genera un hash MD5 único
+            const encryptedId = generateUniqueMD5();
+            links.push({title, url, description, user_id: req.user.id, encrypted_id: encryptedId,});
+        }
+    })
+    .on('error', _ => {
+        req.flash('message', 'There was an error importing your links. Please try again later.');
+        res.redirect('/profile');
+    })
+    .on('end', async (_) => {
+        if (errCode != -1) {
+            for (const link of links) {
+                await pool.query('INSERT INTO links set ?', [link]);
+            }
             req.flash('success', 'Your links were imported successfully');
             res.redirect('/links');
-        });
+        } else {
+            req.flash('message', 'There was an error importing your links. Please check the CSV format is compatible and try again.');
+            res.redirect('/profile');
+        }
+    });
 });
 
 module.exports = router;
