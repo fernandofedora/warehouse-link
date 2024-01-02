@@ -9,6 +9,12 @@ module.exports = {
         user: 'root',
         password: 'EDEE66H3BbGH2heFd4f-ecAAAE2F-dAG',
         database: 'railway'
+
+        planet:
+        username : pc8gxbt6ni0dqgcfi558
+        passwoird: pscale_pw_jrZEwyHZpxKt4jvuMoHIgXZsXVKt12LCYFCtCL4WfRC
+        .end: DATABASE_URL='mysql://pc8gxbt6ni0dqgcfi558:pscale_pw_jrZEwyHZpxKt4jvuMoHIgXZsXVKt12LCYFCtCL4WfRC@aws.connect.psdb.cloud/db_links?ssl={"rejectUnauthorized":true}'
+
     }
 
 };
@@ -23,7 +29,10 @@ module.exports = {
         user: DB_USER = process.env.DB_USER || 'root',
         password: DB_PASSWORD = process.env.DB_PASSWORD || 'fnoel1995',
         database: DB_NAME = process.env.DB_NAME || 'db_links',
-        port:DB_PORT = process.env.DB_PORT || 3306
+        ssl:{
+            rejectUnauthorized: false
+        }
+       // port:DB_PORT = process.env.DB_PORT || 3306
     }
 
 };
