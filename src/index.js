@@ -34,7 +34,7 @@ app.engine('.hbs', exphbs.engine({
 app.set('view engine', '.hbs');
 
 app.get('/', (req, res) => {
-  res.render('index', { pageTitle: 'Index Page', excludeNavigation: true });
+  res.render('index', { pageTitle: 'index', excludeNavigation: true });
 });
 
 app.get('/other-page', (req, res) => {
