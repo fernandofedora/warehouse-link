@@ -33,6 +33,14 @@ app.engine('.hbs', exphbs.engine({
 }))
 app.set('view engine', '.hbs');
 
+app.get('/', (req, res) => {
+  res.render('index', { pageTitle: 'Index Page', excludeNavigation: true });
+});
+
+app.get('/other-page', (req, res) => {
+  res.render('other-page', { pageTitle: 'Other Page' });
+});
+
 //borrar la cache
 app.use((req, res, next) => {
     // Configurar el encabezado Cache-Control en la respuesta HTTP

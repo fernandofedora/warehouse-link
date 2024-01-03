@@ -20,7 +20,9 @@
 
 </head>
 <body>
-     {{>navigation}}
+      {{#unless excludeNavigation}}
+    {{> navigation}}
+  {{/unless}}
     {{>message}} 
     {{{ body }}}
 </body>
