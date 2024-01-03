@@ -33,6 +33,25 @@ app.engine('.hbs', exphbs.engine({
 }))
 app.set('view engine', '.hbs');
 
+app.get('/', (req, res) => {
+  res.render('index', { pageTitle: 'index', excludeNavigation: true });
+});
+
+app.get('/other-page', (req, res) => {
+  res.render('other-page', { pageTitle: 'Other Page' });
+});
+
+//borrar la cache
+app.use((req, res, next) => {
+    // Configurar el encabezado Cache-Control en la respuesta HTTP
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+   // Configurar el encabezado Expires en un valor en el pasado para indicar que la respuesta ha expirado
+  res.header('Expires', '-1');
+    // Configurar el encabezado Pragma en 'no-cache' para indicar que no debe almacenarse en caché
+  res.header('Pragma', 'no-cache');
+  next();
+});
+
 // Middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
