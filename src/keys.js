@@ -23,7 +23,10 @@ module.exports = {
         user: DB_USER = process.env.DB_USER || 'xxxx',
         password: DB_PASSWORD = process.env.DB_PASSWORD || 'xxxxxx',
         database: DB_NAME = process.env.DB_NAME || 'xxxx',
-        port:DB_PORT = process.env.DB_PORT || 3306
+        port:DB_PORT = process.env.DB_PORT || 3306,
+        ssl: {
+            rejectUnauthorized: false
+        }
     }
 
 };
