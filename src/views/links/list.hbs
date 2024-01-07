@@ -1,16 +1,17 @@
 <!-- Contenedor principal -->
 <div class="container mt-5">
- <!-- Menú desplegable -->
-<div class="form-group">
-    <label for="viewSelector">Select View:</label>
-    <select class="form-control" id="viewSelector">
-        <option value="cardView" {{#if selectedView '===' 'cardView'}}selected{{/if}}>Card View</option>
-        <option value="listView" {{#if selectedView '===' 'listView'}}selected{{/if}}>List View</option>
-    </select>
-</div>
+    <!-- Menú desplegable -->
+    <div class="form-group">
+        <label for="viewSelector">Select View:</label>
+        <select class="form-control" id="viewSelector">
+             <option value=""></option>
+            <option value="cardView">Card View</option>
+            <option value="listView">List View</option>
+        </select>
+    </div>
 
     <!-- Contenedor de tarjetas -->
-    <div id="cardView" class="view-container">
+    <div id="cardView" class="view-container" style="display: none;">
         {{#if links.length}} <!-- Verifica si hay enlaces -->
         <!-- Barra de búsqueda -->
         <div class="input-group mb-3">
@@ -107,6 +108,7 @@
     // JavaScript para cambiar entre las vistas
     document.getElementById('viewSelector').addEventListener('change', function () {
         const selectedView = this.value;
+        sessionStorage.setItem('vista', selectedView);
         if (selectedView === 'cardView') {
             document.getElementById('cardView').style.display = 'block';
             document.getElementById('listView').style.display = 'none';
@@ -114,6 +116,8 @@
             document.getElementById('cardView').style.display = 'none';
             document.getElementById('listView').style.display = 'block';
         }
+        console.log(sessionStorage.getItem('vista'));
+      
     });
 
     // Agrega un evento de escucha al campo de búsqueda
@@ -126,12 +130,22 @@
             link.style.display = linkText.includes(searchTerm) ? 'block' : 'none';
         });
     });
-
+/*
     $(document).ready(function () {
         $('#linksTable').DataTable({
             searching: true,
             paging: true,
             pageLength: 50
         });
-    });
+        const status = sessionStorage.getItem('vista') ?? "cardView";
+       document.getElementById('viewSelector').value = status;
+    });*/
+document.addEventListener('DOMContentLoaded', function() {
+     const status = sessionStorage.getItem('vista') ?? "cardView";
+       document.getElementById('viewSelector').value = status;
+       document.getElementById('viewSelector').dispatchEvent(new Event('change'));
+       console.log(status)
+  // Tu código aquí se ejecutará cuando el DOM esté listo
+  // Puedes acceder y manipular elementos del DOM de manera segura aquí
+});
 </script>
