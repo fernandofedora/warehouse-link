@@ -1,48 +1,121 @@
-<div class="container p-4">
-    {{#if links.length}} <!-- Verifica si hay enlaces -->
-    <!-- Barra de búsqueda -->
-    <div class="input-group mb-3">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search">
-        <div class="input-group-append">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
+<!-- Contenedor principal -->
+<div class="container mt-5">
+ <!-- Menú desplegable -->
+<div class="form-group">
+    <label for="viewSelector">Select View:</label>
+    <select class="form-control" id="viewSelector">
+        <option value="cardView" {{#if selectedView '===' 'cardView'}}selected{{/if}}>Card View</option>
+        <option value="listView" {{#if selectedView '===' 'listView'}}selected{{/if}}>List View</option>
+    </select>
+</div>
+
+    <!-- Contenedor de tarjetas -->
+    <div id="cardView" class="view-container">
+        {{#if links.length}} <!-- Verifica si hay enlaces -->
+        <!-- Barra de búsqueda -->
+        <div class="input-group mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+        </div>
+        {{/if}}
+        <!-- Aquí irían las tarjetas -->
+        <div class="container p-4">
+            <div class="row" id="linksContainer">
+                {{#each links}}
+                <div class="col-md-3 link-item">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <a href="{{url}}" target="_blank">
+                                <h3 class="card-title">
+                                    {{title}}
+                                </h3>
+                            </a>
+                            <p class="m-2">{{description}}</p>
+                            <p class="text-muted">
+                                {{timeago created_at}}
+                            </p>
+                            <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
+                                Delete Link
+                            </a>
+                            <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
+                                Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                <div class="col-md-4 mx-auto">
+                    <div class="card card-body text-center">
+                        <p>There are not Links saved yet.</p>
+                        <a href="/links/add">Create One!</a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
         </div>
     </div>
-    {{/if}}
-    <div class="row">
-        {{#each links}}
-        <div class="col-md-3 link-item">
-            <div class="card text-center">
-                <div class="card-body">
-                    <a href="{{url}}" target="_blank">
-                        <h3 class="card-title">
+
+    <!-- Contenedor de lista -->
+    <div id="listView" class="view-container" style="display: none;">
+        <!-- Aquí iría la lista -->
+        <table id="linksTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each links}}
+                <tr>
+                    <td>
+                        <a href="{{url}}" target="_blank">
                             {{title}}
-                        </h3>
-                    </a>
-                    <p class="m-2">{{description}}</p>
-                    <p class="text-muted">
-                        {{timeago created_at}}
-                    </p>
-                    <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
-                        Delete Link
-                    </a>
-                    <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
-                        Edit
-                    </a>
-                </div>
-            </div>
-        </div>
-        {{else}}
-        <div class="col-md-4 mx-auto">
-            <div class="card card-body text-center">
-                <p>There are not Links saved yet.</p>
-                <a href="/links/add">Create One!</a>
-            </div>
-        </div>
-        {{/each}}
+                        </a>
+                    </td>
+                    <td>{{description}}</td>
+                    <td>{{timeago created_at}}</td>
+                    <td>
+                        <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
+                            Delete Link
+                        </a>
+                        <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="4" class="text-center">
+                        There are no links saved yet.
+                        <a href="/links/add">Create One!</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+    // JavaScript para cambiar entre las vistas
+    document.getElementById('viewSelector').addEventListener('change', function () {
+        const selectedView = this.value;
+        if (selectedView === 'cardView') {
+            document.getElementById('cardView').style.display = 'block';
+            document.getElementById('listView').style.display = 'none';
+        } else if (selectedView === 'listView') {
+            document.getElementById('cardView').style.display = 'none';
+            document.getElementById('listView').style.display = 'block';
+        }
+    });
+
     // Agrega un evento de escucha al campo de búsqueda
     document.getElementById('searchInput').addEventListener('input', function () {
         const searchTerm = this.value.toLowerCase();
@@ -51,6 +124,14 @@
         document.querySelectorAll('.link-item').forEach(function (link) {
             const linkText = link.innerText.toLowerCase();
             link.style.display = linkText.includes(searchTerm) ? 'block' : 'none';
+        });
+    });
+
+    $(document).ready(function () {
+        $('#linksTable').DataTable({
+            searching: true,
+            paging: true,
+            pageLength: 50
         });
     });
 </script>
