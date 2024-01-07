@@ -60,8 +60,9 @@ router.get('/', isLoggedIn, async (req, res) => {
             return link;
         }
     });
+    const selectedView = req.query.view || 'cardView'; // Obtén la opción seleccionada de la URL o usa 'cardView' por defecto
 
-    res.render('links/list', { links: encryptedLinks });
+    res.render('links/list', { links: encryptedLinks, selectedView });
 });
 
 router.get('/delete/:encrypted_id', isLoggedIn, async (req, res) => {
