@@ -1,31 +1,32 @@
 <!-- Contenedor principal -->
 <div class="container mt-5">
-    <!-- Menú desplegable -->
-    <div class="form-group">
-        <label for="viewSelector">Select View:</label>
-        <select class="form-control" id="viewSelector">
+    <!-- Menú desplegable y botón de agregar enlace -->
+    <div class="form-inline mb-3">
+        <label for="viewSelector" class="mr-2">Select View:</label>
+        <select class="form-control mr-2" id="viewSelector" style="width: 150px;">
             <option value="cardView">Card View</option>
             <option value="listView">List View</option>
         </select>
+        <button class="btn btn-success" id="addLinkBtn">Add New Link</button>
     </div>
 
-    <!-- Contenedor de tarjetas -->
-    <div id="cardView" class="view-container" style="display: none;">
-        {{#if links.length}} <!-- Verifica si hay enlaces -->
-        <!-- Barra de búsqueda -->
-        <div class="input-group mb-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search">
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
+   <!-- Contenedor de tarjetas -->
+<div id="cardView" class="view-container" style="display: none;">
+    {{#if links.length}} <!-- Verifica si hay enlaces -->
+    <!-- Barra de búsqueda -->
+    <div class="input-group mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search">
+        <div class="input-group-append">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
         </div>
-        {{/if}}
+    </div>
+    {{/if}}
         <!-- Aquí irían las tarjetas -->
-        <div class="container p-4">
-            <div class="row" id="linksContainer">
+        <div class="container-fluid p-4">
+            <div class="row">
                 {{#each links}}
-                <div class="col-md-3 link-item">
-                    <div class="card text-center">
+                <div class="col-md-4 mb-4"> <!-- Establece el tamaño de la tarjeta -->
+                    <div class="card text-center h-100">
                         <div class="card-body">
                             <a href="{{url}}" target="_blank">
                                 <h3 class="card-title">
@@ -147,4 +148,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Tu código aquí se ejecutará cuando el DOM esté listo
   // Puedes acceder y manipular elementos del DOM de manera segura aquí
 });
+
+  document.getElementById('addLinkBtn').addEventListener('click', function() {
+        window.location.href = '/links/add';
+    });
+
 </script>
