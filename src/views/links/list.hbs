@@ -10,22 +10,22 @@
         <button class="btn btn-success" id="addLinkBtn">Add New Link</button>
     </div>
 
-   <!-- Contenedor de tarjetas -->
-<div id="cardView" class="view-container" style="display: none;">
-    {{#if links.length}} <!-- Verifica si hay enlaces -->
-    <!-- Barra de búsqueda -->
-    <div class="input-group mb-3">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search">
-        <div class="input-group-append">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
+    <!-- Contenedor de tarjetas -->
+    <div id="cardView" class="view-container" style="display: none;">
+        {{#if links.length}} <!-- Verifica si hay enlaces -->
+        <!-- Barra de búsqueda -->
+        <div class="input-group mb-3">
+            <input type="text" id="searchInputCard" class="form-control" placeholder="Search">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
         </div>
-    </div>
-    {{/if}}
+        {{/if}}
         <!-- Aquí irían las tarjetas -->
         <div class="container-fluid p-4">
             <div class="row">
                 {{#each links}}
-                <div class="col-md-4 mb-4"> <!-- Establece el tamaño de la tarjeta -->
+                <div class="col-md-4 mb-4 link-item"> <!-- Establece el tamaño de la tarjeta -->
                     <div class="card text-center h-100">
                         <div class="card-body">
                             <a href="{{url}}" target="_blank">
@@ -105,7 +105,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    // JavaScript para cambiar entre las vistas
     document.getElementById('viewSelector').addEventListener('change', function () {
         const selectedView = this.value;
         sessionStorage.setItem('vista', selectedView);
@@ -116,12 +115,10 @@
             document.getElementById('cardView').style.display = 'none';
             document.getElementById('listView').style.display = 'block';
         }
-        console.log(sessionStorage.getItem('vista'));
-      
     });
 
-    // Agrega un evento de escucha al campo de búsqueda
-    document.getElementById('searchInput').addEventListener('input', function () {
+    // Agrega un evento de escucha al campo de búsqueda en modo card
+    document.getElementById('searchInputCard').addEventListener('input', function () {
         const searchTerm = this.value.toLowerCase();
 
         // Oculta o muestra elementos según la búsqueda
@@ -130,27 +127,14 @@
             link.style.display = linkText.includes(searchTerm) ? 'block' : 'none';
         });
     });
-/*
-    $(document).ready(function () {
-        $('#linksTable').DataTable({
-            searching: true,
-            paging: true,
-            pageLength: 50
-        });
-        const status = sessionStorage.getItem('vista') ?? "cardView";
-       document.getElementById('viewSelector').value = status;
-    });*/
-document.addEventListener('DOMContentLoaded', function() {
-     const status = sessionStorage.getItem('vista') ?? "cardView";
-       document.getElementById('viewSelector').value = status;
-       document.getElementById('viewSelector').dispatchEvent(new Event('change'));
-       console.log(status)
-  // Tu código aquí se ejecutará cuando el DOM esté listo
-  // Puedes acceder y manipular elementos del DOM de manera segura aquí
-});
 
-  document.getElementById('addLinkBtn').addEventListener('click', function() {
-        window.location.href = '/links/add';
+    document.addEventListener('DOMContentLoaded', function() {
+        const status = sessionStorage.getItem('vista') ?? "cardView";
+        document.getElementById('viewSelector').value = status;
+        document.getElementById('viewSelector').dispatchEvent(new Event('change'));
     });
 
+    document.getElementById('addLinkBtn').addEventListener('click', function() {
+        window.location.href = '/links/add';
+    });
 </script>
