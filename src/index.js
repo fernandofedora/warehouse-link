@@ -8,6 +8,10 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
+
+
+
+
 //const validator = require('validator');
 //const { check, validationResult } = require('express-validator');
 //const expressValidator = require('express-validator');
@@ -22,6 +26,8 @@ const app = express();
 require('./lib/passport');
 
 // Settings
+app.set('display','list');
+console.log(app.get('display'));
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs.engine({
@@ -33,6 +39,8 @@ app.engine('.hbs', exphbs.engine({
 }))
 app.set('view engine', '.hbs');
 
+
+
 app.get('/', (req, res) => {
   res.render('index', { pageTitle: 'index', excludeNavigation: true });
 });
@@ -40,6 +48,7 @@ app.get('/', (req, res) => {
 app.get('/other-page', (req, res) => {
   res.render('other-page', { pageTitle: 'Other Page' });
 });
+
 
 //borrar la cache
 app.use((req, res, next) => {
@@ -77,6 +86,15 @@ app.use((req, res, next) => {
   app.locals.user = req.user;
   next();
 });
+
+//esto ayuda a que if isqual y qa para handlebars funcione 
+/*
+var Handlebars = require('handlebars'); 
+require('handlebars-helpers')({Handlebars: Handlebars});
+Handlebars.registerHelper('isEqual', function(value1, value2) {
+  return value1 === value2; 
+});
+*/
 
 // Routes
 app.use(require('./routes/index'));

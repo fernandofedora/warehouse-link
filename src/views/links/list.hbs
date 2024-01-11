@@ -1,50 +1,124 @@
-<div class="container p-4">
-    {{#if links.length}} <!-- Verifica si hay enlaces -->
-    <!-- Barra de búsqueda -->
-    <div class="input-group mb-3">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search">
-        <div class="input-group-append">
-            <span class="input-group-text"><i class="fas fa-search"></i></span>
+<!-- Contenedor principal -->
+<div class="container mt-5">
+    <!-- Menú desplegable y botón de agregar enlace -->
+    <div class="form-inline mb-3">
+        <label for="viewSelector" class="mr-2">Select View:</label>
+        <select class="form-control mr-2" id="viewSelector" style="width: 150px;">
+            <option value="cardView">Card View</option>
+            <option value="listView">List View</option>
+        </select>
+        <button class="btn btn-success" id="addLinkBtn">Add New Link</button>
+    </div>
+
+    <!-- Contenedor de tarjetas -->
+    <div id="cardView" class="view-container" style="display: none;">
+        {{#if links.length}} <!-- Verifica si hay enlaces -->
+        <!-- Barra de búsqueda -->
+        <div class="input-group mb-3">
+            <input type="text" id="searchInputCard" class="form-control" placeholder="Search">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+            </div>
+        </div>
+        {{/if}}
+        <!-- Aquí irían las tarjetas -->
+        <div class="container-fluid p-4">
+            <div class="row">
+                {{#each links}}
+                <div class="col-md-4 mb-4 link-item"> <!-- Establece el tamaño de la tarjeta -->
+                    <div class="card text-center h-100">
+                        <div class="card-body">
+                            <a href="{{url}}" target="_blank">
+                                <h3 class="card-title">
+                                    {{title}}
+                                </h3>
+                            </a>
+                            <p class="m-2">{{description}}</p>
+                            <p class="text-muted">
+                                {{timeago created_at}}
+                            </p>
+                            <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
+                                Delete Link
+                            </a>
+                            <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
+                                Edit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                <div class="col-md-4 mx-auto">
+                    <div class="card card-body text-center">
+                        <p>There are not Links saved yet.</p>
+                        <a href="/links/add">Create One!</a>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
         </div>
     </div>
-    {{/if}}
-    <div class="row">
-        {{#each links}}
-        <div class="col-md-3 link-item">
-            <div class="card text-center">
-                <div class="card-body">
-                    <a href="{{url}}" target="_blank">
-                        <h3 class="card-title">
+
+    <!-- Contenedor de lista -->
+    <div id="listView" class="view-container" style="display: none;">
+        <!-- Aquí iría la lista -->
+        <table id="linksTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each links}}
+                <tr>
+                    <td>
+                        <a href="{{url}}" target="_blank">
                             {{title}}
-                        </h3>
-                    </a>
-                    <p class="m-2">{{description}}</p>
-                    <p class="text-muted">
-                        {{timeago created_at}}
-                    </p>
-                    <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
-                        Delete Link
-                    </a>
-                    <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
-                        Edit
-                    </a>
-                </div>
-            </div>
-        </div>
-        {{else}}
-        <div class="col-md-4 mx-auto">
-            <div class="card card-body text-center">
-                <p>There are not Links saved yet.</p>
-                <a href="/links/add">Create One!</a>
-            </div>
-        </div>
-        {{/each}}
+                        </a>
+                    </td>
+                    <td>{{description}}</td>
+                    <td>{{timeago created_at}}</td>
+                    <td>
+                        <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
+                            Delete Link
+                        </a>
+                        <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="4" class="text-center">
+                        There are no links saved yet.
+                        <a href="/links/add">Create One!</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    // Agrega un evento de escucha al campo de búsqueda
-    document.getElementById('searchInput').addEventListener('input', function () {
+    document.getElementById('viewSelector').addEventListener('change', function () {
+        const selectedView = this.value;
+        sessionStorage.setItem('vista', selectedView);
+        if (selectedView === 'cardView') {
+            document.getElementById('cardView').style.display = 'block';
+            document.getElementById('listView').style.display = 'none';
+        } else if (selectedView === 'listView') {
+            document.getElementById('cardView').style.display = 'none';
+            document.getElementById('listView').style.display = 'block';
+        }
+    });
+
+    // Agrega un evento de escucha al campo de búsqueda en modo card
+    document.getElementById('searchInputCard').addEventListener('input', function () {
         const searchTerm = this.value.toLowerCase();
 
         // Oculta o muestra elementos según la búsqueda
@@ -52,5 +126,15 @@
             const linkText = link.innerText.toLowerCase();
             link.style.display = linkText.includes(searchTerm) ? 'block' : 'none';
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const status = sessionStorage.getItem('vista') ?? "cardView";
+        document.getElementById('viewSelector').value = status;
+        document.getElementById('viewSelector').dispatchEvent(new Event('change'));
+    });
+
+    document.getElementById('addLinkBtn').addEventListener('click', function() {
+        window.location.href = '/links/add';
     });
 </script>
