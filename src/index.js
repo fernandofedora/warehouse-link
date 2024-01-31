@@ -20,6 +20,7 @@ const { database } = require('./keys');
 //const {PORT} = require ('./config.js');
 // Importar las rutas
 
+console.log(process.env);
 
 // Intializations
 const app = express();

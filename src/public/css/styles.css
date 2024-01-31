@@ -47,3 +47,13 @@ body {
       font-size: 5.5rem;
     }
   }
+
+  .input-group > .form-control {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .input-group > .btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }

@@ -1,0 +1,110 @@
+<div class="container p-4">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Edit {{user.fullname}}'s Profile</h3>
+        </div>
+        <div class="card-body">
+          <form action="/profile/{{user.id}}" method="POST" class="needs-validation" novalidate>
+            <input type="hidden" name="updateInformation" value="true">
+            <div class="form-group">
+              <input type="type" name="fullname" placeholder="Full Name" value="{{user.fullname}}" class="form-control" required>
+                <div class="valid-feedback">
+                  Looks good!
+                 </div>
+            </div>
+            <div class="form-group">
+              <input type="text" name="username" placeholder="Username" value="{{user.username}}" class="form-control" required>
+               <div class="invalid-feedback">
+                   Please choose a username.
+                  </div>
+            </div>
+            </div>
+            <div class="form-group px-3">
+              <button class="btn btn-success btn-block" type="submit">
+                Update information
+              </button>
+            </div>
+          </form>
+          <form action="/profile/{{user.id}}" method="POST" class="needs-validation px-3 pb-3" novalidate>
+                <input type="hidden" name="updatePassword" value="true">
+                <div class="input-group mb-3">
+              <input type="password" name="currentPassword" placeholder="Current password" class="form-control" id="myPass">
+              <button class="btn btn-outline-secondary" type="button" onclick="ShowPassword(event.target, 'myPass')">Show</button>
+                 <div class="invalid-feedback">
+                   password required.
+                  </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" name="newPassword" placeholder="New password" class="form-control" id="newPass">
+              <button class="btn btn-outline-secondary" type="button" onclick="ShowPassword(event.target, 'newPass')">Show</button>
+                 <div class="invalid-feedback">
+                   password required
+                  </div>
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" name="confirmPassword" disabled placeholder="Confirm password" class="form-control" id="confirmPass">
+              <button class="btn btn-outline-secondary" type="button" onclick="ShowPassword(event.target, 'confirmPass')">Show</button>
+                 <div class="invalid-feedback">
+                   password required.
+                  </div>
+            </div>
+            <button id="updatePassBtn" type="submit" class="btn btn-success btn-block" disabled>Update password</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function ShowPassword(target, id) {
+    var x = document.getElementById(id);
+    if (x.type === "password") {
+        x.type = "text";
+        target.innerHTML = 'Hide';
+    } else {
+        x.type = "password";
+        target.innerHTML = 'Show';
+    }
+}
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  var confirmPass = document.getElementById('confirmPass');
+  var newPass = document.getElementById('newPass');
+  var updatePassBtn = document.getElementById('updatePassBtn');
+
+  newPass.addEventListener('input', function(event) {
+    confirmPass.disabled = newPass.value === '';
+  });
+
+  confirmPass.addEventListener('input', function (event) {
+    if (newPass.value !== '' && newPass.value === confirmPass.value) {
+        updatePassBtn.disabled = false;
+    } else {
+        updatePassBtn.disabled = true;
+    }
+  });
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+</script>
