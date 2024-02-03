@@ -19,8 +19,10 @@ pool.getConnection((err, connection) => {
       }
     }
   
-    if (connection) connection.release();
-    console.log('DB is Connected');
+    if (connection) {
+      connection.release();
+      console.log('DB is Connected');
+    } 
   
     return;
   });
