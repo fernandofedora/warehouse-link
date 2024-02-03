@@ -4,6 +4,10 @@ const router = express.Router();
 
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('../lib/auth');
+const bodyParser = require('body-parser');
+const helpers = require('../lib/helpers');
+
+const pool = require('../database');
 
 // SIGNUP
 
@@ -59,5 +63,58 @@ router.get('/logout', isLoggedIn, (req, res) => {
 router.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile');
 });
+
+router.get('/profile/:id', isLoggedIn, (req, res) => {
+  res.render('auth/profile/edit');
+});
+
+router.post('/profile/:id', isLoggedIn, async (req, res) => {
+  const {id} = req.params;
+  const {fullname, username, currentPassword, newPassword, updatePassword, updateInformation } = req.body;
+  const user = await pool.query('SELECT * from users where id = ?', [id]);
+
+  if (updateInformation) {
+    const updateUser = {
+      fullname,
+      username
+    };
+
+    await pool.query('UPDATE users set ? where id = ?', [updateUser, id]);
+
+    req.flash('success', 'Profile updated successfully');
+    return res.redirect(`/profile/${id}`);
+  }
+
+  if (updatePassword) {
+    if (!helpers.matchPassword(currentPassword, user[0].password)) {
+      req.flash('error', 'User credential not valid');
+      return res.redirect(`/profile/${id}`);
+    }
+
+    const hashPassword = await helpers.encryptPassword(newPassword);
+    const updateUser = {
+      password: hashPassword
+    };
+
+    await pool.query('UPDATE users set ? where id = ?', [updateUser, id]);
+
+    req.flash('success', 'Password updated successfully');
+    return res.redirect(`/profile/${id}`);
+
+  }
+
+ 
+
+
+
+
+
+
+
+  // console.log(updateUser);
+
+
+ 
+})
 
 module.exports = router;
