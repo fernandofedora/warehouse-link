@@ -43,6 +43,7 @@
                             <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
                                 Edit
                             </a>
+                             <button class="btn btn-primary" onclick="copyLink('{{url}}')">Copy Link</button>
                         </div>
                     </div>
                 </div>
@@ -82,11 +83,12 @@
                     <td>{{timeago created_at}}</td>
                     <td>
                         <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
-                            Delete Link
+                            Delete
                         </a>
                         <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
                             Edit
                         </a>
+                        <button class="btn btn-primary" onclick="copyLink('{{url}}')">Copy</button>
                     </td>
                 </tr>
                 {{else}}
@@ -137,4 +139,13 @@
     document.getElementById('addLinkBtn').addEventListener('click', function() {
         window.location.href = '/links/add';
     });
+   async function copyLink(url) {
+    try {
+        await navigator.clipboard.writeText(url);
+        alert('Link copied to clipboard: ' + url);
+    } catch (error) {
+        console.error('Error copying link to clipboard:', error);
+    }
+}
+
 </script>
