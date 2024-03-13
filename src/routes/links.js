@@ -26,7 +26,7 @@ router.get('/add', (req, res) => {
 });
 
 router.post('/add', isLoggedIn, async (req, res) => {
-    const { title, url, description } = req.body;
+    const { title, url, description,category } = req.body;
     
     // Genera un hash MD5 único
     const encryptedId = generateUniqueMD5();
@@ -36,6 +36,7 @@ router.post('/add', isLoggedIn, async (req, res) => {
         title,
         url,
         description,
+        category,
         user_id: req.user.id,
         encrypted_id: encryptedId,
     };
