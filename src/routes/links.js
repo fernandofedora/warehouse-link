@@ -112,7 +112,7 @@ router.post('/edit/:encrypted_id', isLoggedIn, async (req, res) => {
 });
 
 router.get('/export', isLoggedIn, async (req, res) => {
-    const myLinks = await pool.query('SELECT title, url, description FROM links WHERE user_id = ?', [req.user.id]);
+    const myLinks = await pool.query('SELECT title, url, description, category FROM links WHERE user_id = ?', [req.user.id]);
 
     if (myLinks.length == 0) {
         req.flash('message', 'You have no links to export');
@@ -144,12 +144,13 @@ router.post('/import', isLoggedIn, upload.single('mylinks'), async (req, res) =>
         const title = row['title'];
         const url = row['url'];
         const description = row['description'];
-        if (title == null || url == null || description == null) {
+        const category = row['category'];
+        if (title == null || url == null || description == null || category == null) {
             errCode = -1;
         } else {
             // Genera un hash MD5 único
             const encryptedId = generateUniqueMD5();
-            links.push({title, url, description, user_id: req.user.id, encrypted_id: encryptedId,});
+            links.push({title, url, description, category, user_id: req.user.id, encrypted_id: encryptedId,});
         }
     })
     .on('error', _ => {
