@@ -1,22 +1,27 @@
 <!-- Contenedor principal -->
 <div class="container mt-5">
     <!-- Menú desplegable y botón de agregar enlace -->
-    <div class="form-inline mb-3">
-        <label for="viewSelector" class="mr-2">Select View:</label>
-        <select class="form-control mr-2" id="viewSelector" style="width: 150px;">
-            <option value="cardView">Card View</option>
-            <option value="listView">List View</option>
-        </select>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="form-group">
+            <label for="viewSelector" class="mr-2">Select View:</label>
+            <select class="form-control mr-2" id="viewSelector" style="width: 150px;">
+                <option value="cardView">Card View</option>
+                <option value="listView">List View</option>
+            </select>
+        </div>
         <button class="btn btn-success" id="addLinkBtn">Add New Link</button>
 
-        <label for="categoryFilter">Filter by Category:</label>
+        <div class="form-group">
+            <label for="categoryFilter" class="mr-2">Filter by Category:</label>
             <select id="categoryFilter" class="form-control">
                 <option value="all" selected>All</option>
                 <option value="favorite">My Favorite</option>
                 <option value="watch-later">Watch Later</option>
                 <option value="projects">Projects</option>
             </select>
+        </div>
     </div>
+
 
     <!-- Contenedor de tarjetas -->
     <div id="cardView" class="view-container" style="display: none;">
