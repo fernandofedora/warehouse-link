@@ -1,40 +1,38 @@
-<div class="container p-4">
-  <div class="row">
-
-    <div class="col-md-4 mx-auto">
-      <div class="card text-center">
-        <div class="card-header">
-          <h3>Sign In</h3>
+<section
+  class="flex justify-center items-center min-h-[95vh] w-full bg-gray-300"
+>
+  <section class="w-[70%] flex h-[550px] bg-white rounded-xl">
+    <figure class="bg-green-300 rounded-l-xl">
+      <img
+        class="h-full rounded-l-xl"
+        src="https://demo.bootstrapdash.com/login-template-free-2/assets/images/login.jpg"
+        alt="banner"
+      />
+    </figure>
+    <form action="/signin" class="flex flex-1 flex-col items-center gap-8 h-[100%] rounded-r-xl pt-14">
+      <article class="text-center mt-4">
+        <h1 class="font-sans text-4xl font-extrabold mb-1">Wareahouse</h1>
+        <h3 class="font-sans text-xl font-normal">Sign into your account</h3>
+      </article>
+      <div class="flex flex-col w-[80%] gap-6">
+        <input class="p-2 bg-none border border-gray-500 rounded-md" placeholder="User" type="text" name="username" id="user" />
+        <input class="p-2 bg-none border border-gray-500 rounded-md" placeholder="Password" type="password" name="password" id="password" />
+        <div>
+          <input
+          onclick="ShowPassword()"
+            type="checkbox"
+            name="showPassword"
+            title="Show Password"
+          />
+          <label for="showPassword">Show Password</label>
         </div>
-        <img src="/img/fer.jpeg" alt="Logo Fazt" class="card-img-top mx-auto m-2 rounded-circle w-50">
-        <div class="card-body">
-          <form action="/signin" method="POST">
-            <div class="form-group">
-              <input type="text" name="username" placeholder="Username" class="form-control" autofocus>
-            </div>
-            <div class="form-group">
-              <input type="password" name="password" placeholder="Password" class="form-control" id="myPass">
-              <!-- An element to toggle between password visibility -->
-                <input type="checkbox" onclick="ShowPassword()"> Show Password
-            </div>
-            <button class="btn btn-primary btn-block">
-              Sign In
-            </button>
-          </form>
-
-        </div>
+        <input class="bg-blue-500 text-white rounded-md font-semibold px-4 py-2" type="submit" value="Sign In" />
       </div>
-    </div>
-  </div>
-</div>
+    </form>
+  </section>
+</section>
 
 <script>
-  function ShowPassword() {
-  var x = document.getElementById("myPass");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
-  }
-}
+  function ShowPassword() { var x = document.getElementById("password"); if
+  (x.type === "password") { x.type = "text"; } else { x.type = "password"; } }
 </script>
