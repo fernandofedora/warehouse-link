@@ -1,8 +1,8 @@
 -- Crear una nueva base de datos
-CREATE DATABASE db_links;
+CREATE DATABASE warehouse;
 
 -- Usar la nueva base de datos
-USE db_links;
+USE warehouse;
 
 -- Crear la tabla de usuarios
 CREATE TABLE users (

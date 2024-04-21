@@ -45,12 +45,7 @@ router.post('/signin', (req, res, next) => {
     failureFlash: true
   })(req, res, next);
 });
-/*
-router.get('/logout', (req, res) => {
-  req.logOut();
-  res.redirect('/signin');
-});
-*/
+
 router.get('/logout', isLoggedIn, (req, res) => {
   req.logout((err) => {
     if (err) {
@@ -102,19 +97,6 @@ router.post('/profile/:id', isLoggedIn, async (req, res) => {
     return res.redirect(`/profile/${id}`);
 
   }
-
- 
-
-
-
-
-
-
-
-  // console.log(updateUser);
-
-
- 
 })
 
 module.exports = router;

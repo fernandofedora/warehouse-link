@@ -20,15 +20,15 @@ const { database } = require('./keys');
 //const {PORT} = require ('./config.js');
 // Importar las rutas
 
-console.log(process.env);
+// console.log(process.env);
 
 // Intializations
 const app = express();
 require('./lib/passport');
 
 // Settings
-app.set('display','list');
-console.log(app.get('display'));
+// app.set('display','list');
+// console.log(app.get('display'));
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs.engine({

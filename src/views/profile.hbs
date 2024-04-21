@@ -1,10 +1,9 @@
-<div class="container p-4">
+{{!-- <div class="container p-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body text-center">
                     <h3 class="card-title">Welcome {{user.fullname}}</h3>
-                    <h4 class="card-subtitle">{{user.username}}</h4>
                     <a href="/profile/{{user.id}}" class="btn btn-primary">Edit profile</a>
                 </div>
             </div>
@@ -53,12 +52,111 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
+
+<section class="flex flex-row h-[96.3vh] bg-[#ebf2fa]">
+  {{! sidebar }}
+  <div class="bg-white w-[20%] p-4">
+    <section>
+      <figure>
+        <img
+          src="https://trello.com/1/cards/657bcbac1179a9c7c71929fa/attachments/661bb147d102c102724e58a9/previews/661bb148d102c102724e5a01/download/Logo_y_sus_variaciones_Mesa_de_trabajo_1.png"
+          alt="Logo"
+        />
+      </figure>
+    </section>
+    <section>
+      <nav class="flex flex-col items-center">
+        <ul>
+          <li> <a class="text-xl hover:no-underline hover:text-[#9a99ff] hover:transition-all" href="#">Home</a></li>
+        </ul>
+      </nav>
+    </section>
+  </div>
+
+  {{! contend }}
+  <div class="w-[80%] p-4 flex flex-col">
+    <article class="my-2">
+      <p class="text-xl">Welcome, {{user.fullname}}</p>
+    </article>
+    <section class="bg-white rounded-md p-3 flex flex-row">
+      <input
+        type="text"
+        placeholder="Serach link..."
+        class="bg-[#ebf2fa] w-full p-2 border-none rounded-md mr-2"
+      />
+      <button
+        class="bg-[#9a99ff] text-white rounded-md font-semibold px-4 py-2 w-44"
+      >Export</button>
+    </section>
+    <section class="flex flex-row-reverse my-3">
+      <button
+        class="bg-[#9a99ff] text-white rounded-md font-semibold px-4 py-2"
+      >Grupo</button>
+      <button
+        class="bg-[#c7c8e7] text-white rounded-md font-semibold px-4 py-2"
+      >Lista</button>
+    </section>
+    <section>
+
+      <div class="relative overflow-x-auto bg-white">
+        <table class="w-full text-sm text-left rtl:text-right">
+          <thead class="text-xs uppercase border-b-2">
+            <tr>
+              <th scope="col" class="px-6 py-3">
+                Title
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Descritpion
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Created At
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hover:bg-[#d1ceeb] hover:cursor-pointer">
+              <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
+                Tu mangOnline
+              </th>
+              <td class="px-6 py-4">
+                Manga Online
+              </td>
+              <td class="px-6 py-4">
+                Just now
+              </td>
+              <td class="px-6 py-4">
+                
+              </td>
+            </tr>
+            <tr class="hover:bg-[#d1ceeb] hover:cursor-pointer">
+              <th scope="row" class="px-6 py-4 font-medium">
+                GitHub
+              </th>
+              <td class="px-6 py-4">
+                Github
+              </td>
+              <td class="px-6 py-4">
+                Just Now
+              </td>
+              <td class="px-6 py-4">
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+  </div>
+</section>
 
 <script>
-    function updateFileNameLabel() {
-        const input = document.getElementById('inputGroupFile');
-        const label = document.getElementById('fileNameLabel');
-        label.textContent = input.files[0] ? input.files[0].name : 'Choose file';
-    }
+  function updateFileNameLabel() { const input =
+  document.getElementById('inputGroupFile'); const label =
+  document.getElementById('fileNameLabel'); label.textContent = input.files[0] ?
+  input.files[0].name : 'Choose file'; }
 </script>

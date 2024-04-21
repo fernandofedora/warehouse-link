@@ -82,7 +82,6 @@ router.get('/edit/:encrypted_id', isLoggedIn, async (req, res) => {
    //const encryptedId = crypto.MD5(id).toString();
    //const md5 = { id } = crypto.createHash('md5').update(data).digest("hex");
    const links = await pool.query('SELECT * FROM links WHERE encrypted_id = ?', [encrypted_id]);
-   console.log('Encrypted ID:', encrypted_id);
    res.render('links/edit', { link: links[0]});
 });
 router.post('/edit/:encrypted_id', isLoggedIn, async (req, res) => {

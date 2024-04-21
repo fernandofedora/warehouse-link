@@ -1,35 +1,68 @@
 <section
-  class="flex justify-center items-center min-h-[95vh] w-full bg-gray-300"
+  class="flex flex-col justify-center items-center min-h-[96.3vh] w-full bg-[#ebf2fa]"
 >
-  <section class="w-[70%] flex h-[550px] bg-white rounded-xl">
-    <figure class="bg-green-300 rounded-l-xl">
-      <img
-        class="h-full rounded-l-xl"
-        src="https://demo.bootstrapdash.com/login-template-free-2/assets/images/login.jpg"
-        alt="banner"
-      />
-    </figure>
-    <form action="/signin" class="flex flex-1 flex-col items-center gap-8 h-[100%] rounded-r-xl pt-14">
-      <article class="text-center mt-4">
-        <h1 class="font-sans text-4xl font-extrabold mb-1">Wareahouse</h1>
-        <h3 class="font-sans text-xl font-normal">Sign into your account</h3>
-      </article>
-      <div class="flex flex-col w-[80%] gap-6">
-        <input class="p-2 bg-none border border-gray-500 rounded-md" placeholder="User" type="text" name="username" id="user" />
-        <input class="p-2 bg-none border border-gray-500 rounded-md" placeholder="Password" type="password" name="password" id="password" />
-        <div>
-          <input
-          onclick="ShowPassword()"
-            type="checkbox"
-            name="showPassword"
-            title="Show Password"
+  <section class="w-[40%]  bg-white rounded-xl">
+    <div class="flex flex-col items-center">
+      <div class="w-full">
+        <figure class="w-60% flex justify-center">
+          <img
+            class="w-[60%] h-[250px]"
+            src="https://trello.com/1/cards/657bcbac1179a9c7c71929fa/attachments/661bb133f71d256be845c1e0/previews/661bb134f71d256be845c2d1/download/Logo_y_sus_variaciones_Mesa_de_trabajo_1_copia.png"
+            alt="banner"
           />
-          <label for="showPassword">Show Password</label>
-        </div>
-        <input class="bg-blue-500 text-white rounded-md font-semibold px-4 py-2" type="submit" value="Sign In" />
+        </figure>
+        <article class="text-center mt-2">
+          <h1 class="font-sans text-3xl font-bold mb-1">SIGN IN</h1>
+        </article>
       </div>
-    </form>
+      <div class="w-full mb-10">
+        <form
+          action="/signin"
+          method="POST"
+          class="flex flex-1 flex-col items-center gap-8 h-[100%] rounded-r-xl pt-14"
+        >
+          <div class="flex flex-col w-[80%] gap-6">
+            <input
+              class="p-2 bg-gray-100 border border-gray-100 rounded-md"
+              autocomplete="false"
+              placeholder="User"
+              type="text"
+              name="username"
+              id="user"
+            />
+            <input
+              class="p-2 bg-gray-100 border border-gray-100 rounded-md"
+              autocomplete="false"
+              placeholder="Password"
+              type="password"
+              name="password"
+              id="password"
+            />
+            <div>
+              <input
+                onclick="ShowPassword()"
+                type="checkbox"
+                name="showPassword"
+                title="Show Password"
+              />
+              <label for="showPassword">Show Password</label>
+            </div>
+            <input
+              class="bg-[#9a99ff] text-white rounded-md font-semibold px-4 py-2"
+              type="submit"
+              value="Sign In"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
   </section>
+  <article>
+    <h1 class="font-sans text-xl font-bold mt-2">Yout don't have an account yet?
+      <a href="/signup" class="hover:no-underline">
+        <span class="text-[#9a99ff]">Create One</span></h1>
+      </a>
+  </article>
 </section>
 
 <script>
