@@ -1,179 +1,44 @@
-<!-- Contenedor principal -->
-<div class="container mt-5">
-    <!-- Menú desplegable y botón de agregar enlace -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="form-group">
-            <label for="viewSelector" class="mr-2">Select View:</label>
-            <select class="form-control mr-2" id="viewSelector" style="width: 150px;">
-                <option value="cardView">Card View</option>
-                <option value="listView">List View</option>
-            </select>
-        </div>
-        <button class="btn btn-success" id="addLinkBtn">Add New Link</button>
+<div>
+  <section class="bg-white rounded-md p-3 flex flex-row">
+    <input
+      type="text"
+      placeholder="Serach link..."
+      class="bg-[#ebf2fa] w-full p-2 border-none rounded-md mr-2"
+    />
+    <button
+      class="bg-[#9a99ff] text-white rounded-md font-semibold px-4 py-2 w-44"
+    >Serach</button>
+  </section>
 
-        <div class="form-group">
-            <label for="categoryFilter" class="mr-2">Filter by Category:</label>
-            <select id="categoryFilter" class="form-control">
-                <option value="all" selected>All</option>
-                <option value="favorite">My Favorite</option>
-                <option value="watch-later">Watch Later</option>
-                <option value="projects">Projects</option>
-            </select>
-        </div>
-    </div>
-
-
-    <!-- Contenedor de tarjetas -->
-    <div id="cardView" class="view-container" style="display: none;">
-        {{#if links.length}} <!-- Verifica si hay enlaces -->
-        <!-- Barra de búsqueda -->
-        <div class="input-group mb-3">
-            <input type="text" id="searchInputCard" class="form-control" placeholder="Search">
-            <div class="input-group-append">
-                <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
-        </div>
-        {{/if}}
-        <!-- Aquí irían las tarjetas -->
-        <div class="container-fluid p-4">
-            <div class="row">
-                {{#each links}}
-                <div class="col-md-4 mb-4 link-item" data-category="{{category}}"> <!-- Agregar data-category -->
-                    <div class="card text-center h-100">
-                        <div class="card-body">
-                            <a href="{{url}}" target="_blank">
-                                <h3 class="card-title">
-                                    {{title}}
-                                </h3>
-                            </a>
-                            <p class="m-2">{{description}}</p>
-                            <p class="text-muted">
-                            Category: {{category}} <!-- Muestra la categoría -->
-                            </p>
-                            <p class="text-muted">
-                                {{timeago created_at}}
-                            </p>
-                            <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
-                                Delete Link
-                            </a>
-                            <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
-                                Edit
-                            </a>
-                            <button class="btn btn-primary" onclick="copyLink('{{url}}')">Copy Link</button>
-                        </div>
-                    </div>
-                </div>
-                {{else}}
-                <div class="col-md-4 mx-auto">
-                    <div class="card card-body text-center">
-                        <p>There are not Links saved yet.</p>
-                        <a href="/links/add">Create One!</a>
-                    </div>
-                </div>
-                {{/each}}
-            </div>
-        </div>
-    </div>
-
-    <!-- Contenedor de lista -->
-    <div id="listView" class="view-container" style="display: none;">
-        <!-- Aquí iría la lista -->
-        <table id="linksTable" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Created At</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each links}}
-                <tr>
-                    <td>
-                        <a href="{{url}}" target="_blank">
-                            {{title}}
-                        </a>
-                    </td>
-                    <td>{{description}}</td>
-                    <td>{{timeago created_at}}</td>
-                    <td>
-                        <a class="btn btn-danger" href="/links/delete/{{encrypted_id}}">
-                            Delete
-                        </a>
-                        <a class="btn btn-secondary" href="/links/edit/{{encrypted_id}}">
-                            Edit
-                        </a>
-                        <button class="btn btn-primary" onclick="copyLink('{{url}}')">Copy</button>
-                    </td>
-                </tr>
-                {{else}}
-                <tr>
-                    <td colspan="4" class="text-center">
-                        There are no links saved yet.
-                        <a href="/links/add">Create One!</a>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
+  <section class="flex flex-row-reverse gap-2 my-3">
+    <button
+      class="bg-[#9a99ff] text-white rounded-md font-semibold px-4 py-2"
+    >Card</button>
+    <button
+      class="bg-[#c7c8e7] text-white rounded-md font-semibold px-4 py-2"
+    >List</button>
+  </section>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    document.getElementById('viewSelector').addEventListener('change', function () {
-        const selectedView = this.value;
-        sessionStorage.setItem('vista', selectedView);
-        if (selectedView === 'cardView') {
-            document.getElementById('cardView').style.display = 'block';
-            document.getElementById('listView').style.display = 'none';
-        } else if (selectedView === 'listView') {
-            document.getElementById('cardView').style.display = 'none';
-            document.getElementById('listView').style.display = 'block';
-        }
-    });
-
-    // Agrega un evento de escucha al campo de búsqueda en modo card
-    document.getElementById('searchInputCard').addEventListener('input', function () {
-        const searchTerm = this.value.toLowerCase();
-
-        // Oculta o muestra elementos según la búsqueda
-        document.querySelectorAll('.link-item').forEach(function (link) {
-            const linkText = link.innerText.toLowerCase();
-            link.style.display = linkText.includes(searchTerm) ? 'block' : 'none';
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const status = sessionStorage.getItem('vista') ?? "cardView";
-        document.getElementById('viewSelector').value = status;
-        document.getElementById('viewSelector').dispatchEvent(new Event('change'));
-    });
-
-    document.getElementById('addLinkBtn').addEventListener('click', function() {
-        window.location.href = '/links/add';
-    });
-   async function copyLink(url) {
-    try {
-        await navigator.clipboard.writeText(url);
-        alert('Link copied to clipboard: ' + url);
-    } catch (error) {
-        console.error('Error copying link to clipboard:', error);
-        }
-    }
-document.getElementById('categoryFilter').addEventListener('change', function () {
-    const selectedCategory = this.value.toLowerCase();
-
-    document.querySelectorAll('.link-item').forEach(function (link) {
-        const linkCategory = link.dataset.category.toLowerCase();
-        if (selectedCategory === 'all' || selectedCategory === linkCategory) {
-            link.style.display = 'block';
-        } else {
-            link.style.display = 'none';
-        }
-    });
-});
-
-</script>
+{{#if links.length}}
+  <!-- Verifica si hay enlaces -->
+  {{#each links}}
+    <section>
+      <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+        <iframe src={{url}} class="w-full h-64" frameborder="0">
+        </iframe>
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">{{title}}</div>
+          <p class="text-gray-700 text-base">
+            {{description}}
+          </p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span
+            class="inline-block bg-[#9a99ff] rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2"
+          >{{category}}</span>
+        </div>
+      </div>
+    </section>
+  {{/each}}
+{{/if}}
