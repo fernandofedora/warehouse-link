@@ -25,8 +25,8 @@
   {{#each links}}
     <section>
       <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
-        <iframe src={{url}} class="w-full h-64" frameborder="0">
-        </iframe>
+        {{!-- <iframe src={{url}} class="w-full h-64" frameborder="0">
+        </iframe> --}}
         <div class="px-6 py-4">
           <div class="font-bold text-xl mb-2">{{title}}</div>
           <p class="text-gray-700 text-base">
@@ -42,3 +42,12 @@
     </section>
   {{/each}}
 {{/if}}
+
+<script "text/javascript">
+  const fetchMetada = async () => {
+    await fetch(`links/metadata`)
+    .then(res => res.json())
+    .then(console.log)
+    .catch(console.log)
+  }
+</script>

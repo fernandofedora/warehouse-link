@@ -1,139 +1,71 @@
-{{!-- <div class="container p-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h3 class="card-title">Welcome {{user.fullname}}</h3>
-                    <a href="/profile/{{user.id}}" class="btn btn-primary">Edit profile</a>
-                </div>
-            </div>
-        </div>
+<div>
+  <div class="flex flex-col items-center bg-white rounded-md shadow-md">
+    <div class="p-4 text-center">
+      <p class="text-3xl">Welcome <span>{{user.fullname}}</span></p>
+      <p class="text-3xl">{{user.username}}</p>
+    </div>
+    <div class="p-4">
+      <a
+        href="/profile/{{user.id}}"
+        class="bg-[#9a99ff] px-4 py-3 rounded-md mt-2 text-white font-bold"
+      >Edit profile</a>
+    </div>
+  </div>
+
+  <div class="flex my-4 gap-2">
+    <div class="basis-1/2 bg-white py-6 rounded-md shadow-md text-center">
+      <a
+        href="/links"
+        class="w-full bg-[#9a99ff] px-4 py-3 rounded-md text-white font-bold"
+      >
+        Save your Links
+      </a>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body text-center">
-                    <a href="/links" class="btn btn-primary btn-lg btn-block">
-                        Save your Links
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body text-center">
-                    <a href="/links/export" class="btn btn-primary btn-lg btn-block">
-                        Export your Links
-                    </a>
-                </div>
-            </div>
-        </div>
+    <div class="basis-1/2 bg-white py-6 rounded-md shadow-md text-center">
+      <a
+        href="/links/export"
+        class="w-full bg-[#9a99ff] px-4 py-3 rounded-md text-white font-bold"
+      >
+        Export your Links
+      </a>
     </div>
-<!--actulizar esta tarjeta con un mejor mejor diseño-->
-    <div class="row mt-4">
-        <div class="col-md-8 mx-auto">
-            <div class="card">
-                <div class="card-body text-center">
-               <p>Import your links</p>
-                    <form action="/links/import" method="POST" enctype="multipart/form-data">
-                        <div class="input-group mb-3">
-                            <div class="custom-file">
-                                <input type="file" name="mylinks" class="custom-file-input" id="inputGroupFile" onchange="updateFileNameLabel()">
-                                <label class="custom-file-label" for="inputGroupFile" id="fileNameLabel">Choose file</label>
-                            </div>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="submit">Import</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
+  </div>
 
-<article class="my-2">
-  <p class="text-xl">Welcome, {{user.fullname}}</p>
-</article>
-<section class="bg-white rounded-md p-3 flex flex-row">
-  <input
-    type="text"
-    placeholder="Serach link..."
-    class="bg-[#ebf2fa] w-full p-2 border-none rounded-md mr-2"
-  />
-  <button
-    class="bg-[#9a99ff] text-white rounded-md font-semibold px-4 py-2 w-44"
-  >Export</button>
-</section>
+  <!--actulizar esta tarjeta con un mejor mejor diseño-->
+  <div class="py-4 mt-8 bg-white rounded-md shadow-md">
+    <p class="text-2xl text-center py-4">Import your links</p>
+    <form action="/links/import" method="POST" enctype="multipart/form-data">
+      <div class="flex items-center justify-center w-full px-4">
+        <label
+          for="dropzone-file"
+          class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+        >
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg
+              class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 16"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+              />
+            </svg>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                class="font-semibold"
+              >Click to upload</span>
+              or drag and drop</p>
+          </div>
+          <input id="dropzone-file" type="file" class="hidden" />
+        </label>
+      </div>
 
-{{!-- <section class="flex flex-row-reverse my-3">
-  <button
-    class="bg-[#9a99ff] text-white rounded-md font-semibold px-4 py-2"
-  >Grupo</button>
-  <button
-    class="bg-[#c7c8e7] text-white rounded-md font-semibold px-4 py-2"
-  >Lista</button>
-</section>
-
-<section>
-  <div class="relative overflow-x-auto bg-white">
-    <table class="w-full text-sm text-left rtl:text-right">
-      <thead class="text-xs uppercase border-b-2">
-        <tr>
-          <th scope="col" class="px-6 py-3">
-            Title
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Descritpion
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Created At
-          </th>
-          <th scope="col" class="px-6 py-3">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="hover:bg-[#d1ceeb] hover:cursor-pointer">
-          <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
-            Tu mangOnline
-          </th>
-          <td class="px-6 py-4">
-            Manga Online
-          </td>
-          <td class="px-6 py-4">
-            Just now
-          </td>
-          <td class="px-6 py-4">
-
-          </td>
-        </tr>
-        <tr class="hover:bg-[#d1ceeb] hover:cursor-pointer">
-          <th scope="row" class="px-6 py-4 font-medium">
-            GitHub
-          </th>
-          <td class="px-6 py-4">
-            Github
-          </td>
-          <td class="px-6 py-4">
-            Just Now
-          </td>
-          <td class="px-6 py-4">
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div> --}}
-
-</section>
-
-<script>
-  function updateFileNameLabel() { const input =
-  document.getElementById('inputGroupFile'); const label =
-  document.getElementById('fileNameLabel'); label.textContent = input.files[0] ?
-  input.files[0].name : 'Choose file'; }
-</script>
+    </form>
+  </div>
+</div>

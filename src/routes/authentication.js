@@ -26,7 +26,7 @@ router.post('/signup', passport.authenticate('local.signup', {
 // SINGIN
 
 router.get('/signin', isNotLoggedIn, (req, res) => {
-   res.render('auth/signin');
+   res.render('auth/signin', { pageTitle: 'sigin', excludeNavigation: true });
 });
 
 
@@ -56,7 +56,7 @@ router.get('/logout', isLoggedIn, (req, res) => {
 });
 
 router.get('/profile', isLoggedIn, (req, res) => {
-  res.render('profile');
+  res.render('profile', {pageTitle: 'Profile'});
 });
 
 router.get('/profile/:id', isLoggedIn, (req, res) => {
@@ -64,7 +64,8 @@ router.get('/profile/:id', isLoggedIn, (req, res) => {
 });
 
 router.post('/profile/:id', isLoggedIn, async (req, res) => {
-  const {id} = req.params;
+  const {id} = req.id;
+  console.log(id)
   const {fullname, username, currentPassword, newPassword, updatePassword, updateInformation } = req.body;
   const user = await pool.query('SELECT * from users where id = ?', [id]);
 

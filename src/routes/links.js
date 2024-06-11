@@ -1,4 +1,5 @@
 const express = require('express');
+const cheerio = require('cheerio');
 const crypto = require('crypto');
 const router = express.Router();
 const parser = require('@json2csv/plainjs');
@@ -14,6 +15,7 @@ const csv = require('fast-csv');
 
 const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
+const { title } = require('process');
 
 // Función para generar un hash MD5 único
 function generateUniqueMD5() {
@@ -84,6 +86,7 @@ router.get('/edit/:encrypted_id', isLoggedIn, async (req, res) => {
    const links = await pool.query('SELECT * FROM links WHERE encrypted_id = ?', [encrypted_id]);
    res.render('links/edit', { link: links[0]});
 });
+
 router.post('/edit/:encrypted_id', isLoggedIn, async (req, res) => {
     const { encrypted_id } = req.params;
     const { title, description, url } = req.body;
@@ -166,6 +169,36 @@ router.post('/import', isLoggedIn, upload.single('mylinks'), async (req, res) =>
         } else {
             req.flash('message', 'There was an error importing your links. Please check the CSV format is compatible and try again.');
             res.redirect('/profile');
+        }
+    });
+
+    router.get("/metadata", isLoggedIn, async (req, res) => {
+        const url = 'https://github.com/'
+        console.log(url)
+
+        // if (!url) {
+        //     return res.status(400).json({error: 'URL is required!'})
+        // }
+
+        try {
+            const response = await fetch(url);
+            const html = response.data;
+            const $ = cheerio.load(html)
+
+            const metadata = {
+              title:
+                $('meta[property="og:title"]').attr("content") ||
+                $("title").text(),
+                description:
+                $('meta[property="og:description"]').attr("content") ||
+                $('meta[name="description"]').attr("content"),
+              image: $('meta[property="og:image"]').attr("content"),
+              url: $('meta[property="og:url"]').attr("content") || url,
+            };
+
+            res.json(metadata)
+        } catch (error) {
+            res.status(500).json({error: 'Failed to fetch metadata'})
         }
     });
 });

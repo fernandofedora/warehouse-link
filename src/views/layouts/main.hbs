@@ -14,20 +14,16 @@
     crossorigin="anonymous">
   {{!-- STYLES --}}
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="/css/styles.css">
+  {{!-- <link rel="stylesheet" href="/css/styles.css"> --}}
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
- 
-
+ <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 </head>
 <body>
   <section class="flex flex-row h-[96.3vh] bg-[#ebf2fa]">
-  
   {{#if excludeNavigation}}
-
     <div class="w-full p-8 flex flex-col">
-      {{!-- {{> navigation}} --}}
       {{>message}}
       {{{ body }}}
     </div>
@@ -36,7 +32,7 @@
       <section>
         <figure>
           <img
-            src="https://trello.com/1/cards/657bcbac1179a9c7c71929fa/attachments/661bb147d102c102724e58a9/previews/661bb148d102c102724e5a01/download/Logo_y_sus_variaciones_Mesa_de_trabajo_1.png"
+            src="/img/logo.png"
             alt="Logo"
           />
         </figure>
@@ -44,15 +40,14 @@
       <section>
         <nav class="flex flex-col items-center gap-4">
           <ul class="flex flex-col gap-4">
-            <li><a class="text-xl hover:no-underline hover:text-[#9a99ff] hover:transition-all" href="/profile">Home</a></li>
-            <li><a class="text-xl hover:no-underline hover:text-[#9a99ff] hover:transition-all" href="/links">Links</a></li>
-            <li><a class="text-xl hover:no-underline hover:text-[#9a99ff] hover:transition-all" href="/logout">Log Out</a></li>
+            <li class="cursor-pointer"><a class="text-xl hover:no-underline hover:text-[#9a99ff] hover:transition-all transition-all " href="/profile">Home</a></li>
+            <li class="cursor-pointer"><a class="text-xl hover:no-underline hover:text-[#9a99ff] hover:transition-all transition-all " href="/links">Links</a></li>
+            <li class="cursor-pointer"><a class="text-xl hover:no-underline hover:text-[#9a99ff] hover:transition-all transition-all " href="/logout">Log Out</a></li>
           </ul>
         </nav>
       </section>
     </div>
     <div class="w-[80%] p-8 flex flex-col">
-      {{!-- {{> navigation}} --}}
       {{>message}}
       {{{ body }}}
     </div>  
