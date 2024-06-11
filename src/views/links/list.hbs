@@ -22,10 +22,8 @@
         </div>
     </div>
 
-
     <!-- Contenedor de tarjetas -->
     <div id="cardView" class="view-container" style="display: none;">
-        {{#if links.length}} <!-- Verifica si hay enlaces -->
         <!-- Barra de búsqueda -->
         <div class="input-group mb-3">
             <input type="text" id="searchInputCard" class="form-control" placeholder="Search">
@@ -33,12 +31,11 @@
                 <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
         </div>
-        {{/if}}
         <!-- Aquí irían las tarjetas -->
         <div class="container-fluid p-4">
             <div class="row">
                 {{#each links}}
-                <div class="col-md-4 mb-4 link-item" data-category="{{category}}"> <!-- Agregar data-category -->
+                <div class="col-md-4 mb-4 link-item" data-category="{{category}}">
                     <div class="card text-center h-100">
                         <div class="card-body">
                             <a href="{{url}}" target="_blank">
@@ -48,7 +45,7 @@
                             </a>
                             <p class="m-2">{{description}}</p>
                             <p class="text-muted">
-                            Category: {{category}} <!-- Muestra la categoría -->
+                                Category: {{category}}
                             </p>
                             <p class="text-muted">
                                 {{timeago created_at}}
@@ -66,7 +63,7 @@
                 {{else}}
                 <div class="col-md-4 mx-auto">
                     <div class="card card-body text-center">
-                        <p>There are not Links saved yet.</p>
+                        <p>There are no links saved yet.</p>
                         <a href="/links/add">Create One!</a>
                     </div>
                 </div>
@@ -155,25 +152,26 @@
     document.getElementById('addLinkBtn').addEventListener('click', function() {
         window.location.href = '/links/add';
     });
-   async function copyLink(url) {
-    try {
-        await navigator.clipboard.writeText(url);
-        alert('Link copied to clipboard: ' + url);
-    } catch (error) {
-        console.error('Error copying link to clipboard:', error);
+
+    async function copyLink(url) {
+        try {
+            await navigator.clipboard.writeText(url);
+            alert('Link copied to clipboard: ' + url);
+        } catch (error) {
+            console.error('Error copying link to clipboard:', error);
         }
     }
-document.getElementById('categoryFilter').addEventListener('change', function () {
-    const selectedCategory = this.value.toLowerCase();
 
-    document.querySelectorAll('.link-item').forEach(function (link) {
-        const linkCategory = link.dataset.category.toLowerCase();
-        if (selectedCategory === 'all' || selectedCategory === linkCategory) {
-            link.style.display = 'block';
-        } else {
-            link.style.display = 'none';
-        }
+    document.getElementById('categoryFilter').addEventListener('change', function () {
+        const selectedCategory = this.value.toLowerCase();
+
+        document.querySelectorAll('.link-item').forEach(function (link) {
+            const linkCategory = link.dataset.category.toLowerCase();
+            if (selectedCategory === 'all' || selectedCategory === linkCategory) {
+                link.style.display = 'block';
+            } else {
+                link.style.display = 'none';
+            }
+        });
     });
-});
-
 </script>
