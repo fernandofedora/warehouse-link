@@ -64,8 +64,7 @@ router.get('/profile/:id', isLoggedIn, (req, res) => {
 });
 
 router.post('/profile/:id', isLoggedIn, async (req, res) => {
-  const {id} = req.id;
-  console.log(id)
+  const {id} = req.params;
   const {fullname, username, currentPassword, newPassword, updatePassword, updateInformation } = req.body;
   const user = await pool.query('SELECT * from users where id = ?', [id]);
 
