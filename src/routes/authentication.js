@@ -12,7 +12,7 @@ const pool = require('../database');
 // SIGNUP
 
 router.get('/signup',isNotLoggedIn,(req, res) => {
-  res.render('auth/signup');
+  res.render('auth/signup', { excludeNavigation: true });
 });
 
 

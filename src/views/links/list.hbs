@@ -22,12 +22,12 @@
 
 {{#if links.length}}
   <!-- Verifica si hay enlaces -->
-  {{#each links}}
-    <section>
-      <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+  <section class="flex flex-col lg:flex-row items-center gap-4">
+    {{#each links}}
+      <div class="w-full lg:w-[40%] mx-2 rounded overflow-hidden shadow-lg bg-white">
         {{!-- <iframe src={{url}} class="w-full h-64" frameborder="0">
         </iframe> --}}
-        <div class="px-6 py-4">
+        <div class="p-4">
           <div class="font-bold text-xl mb-2">{{title}}</div>
           <p class="text-gray-700 text-base">
             {{description}}
@@ -39,8 +39,41 @@
           >{{category}}</span>
         </div>
       </div>
-    </section>
-  {{/each}}
+
+      <div class="w-full lg:w-[40%] mx-2 rounded overflow-hidden shadow-lg bg-white">
+        {{!-- <iframe src={{url}} class="w-full h-64" frameborder="0">
+        </iframe> --}}
+        <div class="p-4">
+          <div class="font-bold text-xl mb-2">{{title}}</div>
+          <p class="text-gray-700 text-base">
+            {{description}}
+          </p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span
+            class="inline-block bg-[#9a99ff] rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2"
+          >{{category}}</span>
+        </div>
+      </div>
+
+      <div class="w-full lg:w-[40%] mx-2 rounded overflow-hidden shadow-lg bg-white">
+        {{!-- <iframe src={{url}} class="w-full h-64" frameborder="0">
+        </iframe> --}}
+        <div class="p-4">
+          <div class="font-bold text-xl mb-2">{{title}}</div>
+          <p class="text-gray-700 text-base">
+            {{description}}
+          </p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span
+            class="inline-block bg-[#9a99ff] rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2"
+          >{{category}}</span>
+        </div>
+      </div>
+    {{/each}}
+  </section>
+    
 {{/if}}
 
 <script "text/javascript">
