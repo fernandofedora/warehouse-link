@@ -6,17 +6,14 @@ const session = require('express-session');
 const validator = require('express-validator');
 const passport = require('passport');
 const flash = require('connect-flash');
-const MySQLStore = require('express-mysql-session')(session);
+const PgSession = require('connect-pg-simple')(session);
+const pgClient = require('./config/pg_client');
 const bodyParser = require('body-parser');
-
-
-
 
 //const validator = require('validator');
 //const { check, validationResult } = require('express-validator');
 //const expressValidator = require('express-validator');
 
-const { database } = require('./keys');
 //const {PORT} = require ('./config.js');
 // Importar las rutas
 
@@ -72,7 +69,10 @@ app.use(session({
   secret: 'fertmysqlnodemysql',
   resave: false,
   saveUninitialized: false,
-  store: new MySQLStore(database)
+  store: new PgSession({
+    pool: pgClient,
+    tableName: 'session'
+  }),
 }));
 app.use(flash());
 app.use(passport.initialize());

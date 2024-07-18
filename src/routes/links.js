@@ -1,4 +1,5 @@
 const express = require('express');
+const supabase = require('../config/supabase');
 const crypto = require('crypto');
 const router = express.Router();
 const parser = require('@json2csv/plainjs');
@@ -12,7 +13,6 @@ const upload = multer({
 
 const csv = require('fast-csv');
 
-const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
 
 // Función para generar un hash MD5 único
@@ -42,16 +42,16 @@ router.post('/add', isLoggedIn, async (req, res) => {
     };
 
     // Inserta el nuevo enlace en la base de datos
-    await pool.query('INSERT INTO links SET ?', [newLink]);
+    await supabase.from('links').insert([newLink]);
 
     req.flash('success', 'Link Saved Successfully');
     res.redirect('/links');
 });
 
 router.get('/', isLoggedIn, async (req, res) => {
-    const links = await pool.query('SELECT * FROM links WHERE user_id = ?', [req.user.id]);
+    const links = await supabase.from('links').select('*').eq('user_id', req.user.id);
 
-    const encryptedLinks = links.map(link => {
+    const encryptedLinks = links.data.map(link => {
         if (link && link.id) {
             return {
                 ...link,
@@ -70,7 +70,7 @@ router.get('/delete/:encrypted_id', isLoggedIn, async (req, res) => {
     const { encrypted_id } = req.params;
     //const decryptedId = crypto.createHash('md5').update(id).digest('hex');
 
-    await pool.query('DELETE FROM links WHERE encrypted_id = ?', [encrypted_id]);
+    await supabase.from('links').delete().eq('encrypted_id', encrypted_id);
     req.flash('success', 'Link Removed Successfully');
     res.redirect('/links');
 
@@ -81,9 +81,9 @@ router.get('/edit/:encrypted_id', isLoggedIn, async (req, res) => {
     //let encryptedId = crypto.createHash('md5').update(id).digest("hex")
    //const encryptedId = crypto.MD5(id).toString();
    //const md5 = { id } = crypto.createHash('md5').update(data).digest("hex");
-   const links = await pool.query('SELECT * FROM links WHERE encrypted_id = ?', [encrypted_id]);
+   const links = await supabase.from('links').select('*').eq('encrypted_id', encrypted_id);
    console.log('Encrypted ID:', encrypted_id);
-   res.render('links/edit', { link: links[0]});
+   res.render('links/edit', { link: links.data[0]});
 });
 router.post('/edit/:encrypted_id', isLoggedIn, async (req, res) => {
     const { encrypted_id } = req.params;
@@ -91,9 +91,9 @@ router.post('/edit/:encrypted_id', isLoggedIn, async (req, res) => {
 
     // Utiliza el valor cifrado para buscar la fila correspondiente
     //const decryptedId = crypto.createHash('md5').update(id).digest('hex');
-    const link = await pool.query('SELECT * FROM links WHERE encrypted_id = ?', [encrypted_id]);
+    const link = await supabase.from('links').select('*').eq('encrypted_id', encrypted_id);
 
-    if (!link || link.length === 0) {
+    if (!link || link.data.length === 0) {
         req.flash('error', 'Link not found');
         return res.redirect('/links');
     }
@@ -105,16 +105,16 @@ router.post('/edit/:encrypted_id', isLoggedIn, async (req, res) => {
         url,
     };
 
-    await pool.query('UPDATE links set ? WHERE encrypted_id = ?', [updatedLink, encrypted_id]);
+    await supabase.from('links').update(updatedLink).eq('encrypted_id', encrypted_id);
 
     req.flash('success', 'Link Updated Successfully');
     res.redirect('/links');
 });
 
 router.get('/export', isLoggedIn, async (req, res) => {
-    const myLinks = await pool.query('SELECT title, url, description, category FROM links WHERE user_id = ?', [req.user.id]);
+    const myLinks = await supabase.from('links').select('title, url, description, category').eq('user_id', req.user.id);
 
-    if (myLinks.length == 0) {
+    if (myLinks.data.length == 0) {
         req.flash('message', 'You have no links to export');
         res.redirect('/profile');
         return;
@@ -160,7 +160,7 @@ router.post('/import', isLoggedIn, upload.single('mylinks'), async (req, res) =>
     .on('end', async (_) => {
         if (errCode != -1) {
             for (const link of links) {
-                await pool.query('INSERT INTO links set ?', [link]);
+                await supabase.from('links').insert([link]);
             }
             req.flash('success', 'Your links were imported successfully');
             res.redirect('/links');

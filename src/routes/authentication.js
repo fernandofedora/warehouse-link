@@ -7,7 +7,7 @@ const { isLoggedIn, isNotLoggedIn } = require('../lib/auth');
 const bodyParser = require('body-parser');
 const helpers = require('../lib/helpers');
 
-const pool = require('../database');
+const supabase = require('../config/supabase');
 
 // SIGNUP
 
@@ -71,7 +71,7 @@ router.get('/profile/:id', isLoggedIn, (req, res) => {
 router.post('/profile/:id', isLoggedIn, async (req, res) => {
   const {id} = req.params;
   const {fullname, username, currentPassword, newPassword, updatePassword, updateInformation } = req.body;
-  const user = await pool.query('SELECT * from users where id = ?', [id]);
+  const user = await supabase.from('users').select('*').eq('id', id);
 
   if (updateInformation) {
     const updateUser = {
@@ -79,7 +79,7 @@ router.post('/profile/:id', isLoggedIn, async (req, res) => {
       username
     };
 
-    await pool.query('UPDATE users set ? where id = ?', [updateUser, id]);
+    await supabase.from('users').update(updateUser).eq('id', id);
 
     req.flash('success', 'Profile updated successfully');
     return res.redirect(`/profile/${id}`);
@@ -96,7 +96,7 @@ router.post('/profile/:id', isLoggedIn, async (req, res) => {
       password: hashPassword
     };
 
-    await pool.query('UPDATE users set ? where id = ?', [updateUser, id]);
+    await supabase.from('users').update(updateUser).eq('id', id);
 
     req.flash('success', 'Password updated successfully');
     return res.redirect(`/profile/${id}`);
