@@ -8,27 +8,23 @@
         <div class="card-body">
           <form action="/signup" method="POST" class="needs-validation" novalidate>
             <div class="form-group">
-              <input type="type" name="fullname" placeholder="Full Name" class="form-control" required>
-                <div class="valid-feedback">
-                  Looks good!
-                 </div>
+              <input type="text" name="fullname" placeholder="Full Name" class="form-control" required>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
             </div>
             <div class="form-group">
               <input type="text" name="username" placeholder="Username" class="form-control" required>
-               <div class="invalid-feedback">
-                   Please choose a username.
-                  </div>
+              <div class="invalid-feedback">
+                Please choose a username.
+              </div>
             </div>
-            <div class="form-group">
+            <div class="form-group position-relative">
               <input type="password" name="password" placeholder="Password" class="form-control" id="myPass" required>
-                 <div class="invalid-feedback">
-                   password required.
-                  </div>
-            </div>
-              <div class="form-group">
-            <!-- An element to toggle between password visibility -->
-                <input type="checkbox" onclick="ShowPassword()"> Show Password
-                </div>
+              <span toggle="#myPass" class="fa fa-fw fa-eye field-icon toggle-password" onclick="togglePassword()"></span>
+              <div class="invalid-feedback">
+                Password required.
+              </div>
             </div>
             <div class="form-group">
               <button class="btn btn-success btn-block" type="submit">
@@ -43,34 +39,63 @@
 </div>
 
 <script>
-  function ShowPassword() {
-  var x = document.getElementById("myPass");
-  if (x.type === "password") {
-    x.type = "text";
-  } else {
-    x.type = "password";
+  function togglePassword() {
+    var x = document.getElementById("myPass");
+    var icon = document.querySelector(".toggle-password");
+    if (x.type === "password") {
+      x.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      x.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
   }
-}
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(function () {
-  'use strict'
+  (function () {
+    'use strict'
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll('.needs-validation')
+    var forms = document.querySelectorAll('.needs-validation')
 
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
 
-        form.classList.add('was-validated')
-      }, false)
-    })
-})()
-
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
 </script>
+
+<style>
+  .field-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  #myPass {
+    padding-right: 40px;
+  }
+
+  .invalid-feedback {
+    margin-top: 5px;
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+  }
+</style>
