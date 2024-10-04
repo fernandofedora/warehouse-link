@@ -170,5 +170,67 @@ router.post('/import', isLoggedIn, upload.single('mylinks'), async (req, res) =>
         }
     });
 });
+router.post('/delete-duplicates', isLoggedIn, async (req, res) => {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: 'No links selected for deletion.' });
+    }
+
+    try {
+        // Obtén todos los enlaces del usuario
+        const allLinks = await pool.query('SELECT encrypted_id, url FROM links WHERE user_id = ?', [req.user.id]);
+        
+        const urlMap = new Map();
+        const idsToDelete = [];
+
+        allLinks.forEach(link => {
+            if (!urlMap.has(link.url)) {
+                urlMap.set(link.url, link.encrypted_id);
+            } else if (ids.includes(link.encrypted_id)) {
+                idsToDelete.push(link.encrypted_id);
+            }
+        });
+
+        if (idsToDelete.length > 0) {
+            await pool.query('DELETE FROM links WHERE encrypted_id IN (?) AND user_id = ?', [idsToDelete, req.user.id]);
+            res.json({ 
+                success: true, 
+                message: `${idsToDelete.length} duplicate links deleted successfully.`,
+                deletedIds: idsToDelete
+            });
+        } else {
+            res.json({ success: true, message: 'No duplicate links found.' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error deleting duplicate links.' });
+    }
+});
+
+// Nueva ruta para eliminar múltiples enlaces seleccionados
+router.post('/delete-multiple', isLoggedIn, async (req, res) => {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({ error: 'No links selected for deletion.' });
+    }
+
+    try {
+        // Elimina los enlaces seleccionados
+        const result = await pool.query('DELETE FROM links WHERE encrypted_id IN (?) AND user_id = ?', [ids, req.user.id]);
+        
+        if (result.affectedRows > 0) {
+            res.json({ 
+                success: true, 
+                message: `${result.affectedRows} links deleted successfully.`,
+                deletedIds: ids
+            });
+        } else {
+            res.json({ success: true, message: 'No links were deleted.' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error deleting selected links.' });
+    }
+});
 
 module.exports = router;
